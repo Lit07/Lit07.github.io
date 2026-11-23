@@ -20,7 +20,7 @@ export const profile = {
 
 // Opening quote of the Prologue - your own words. Leave text empty to hide it.
 export const epigraph = {
-  text: "Lost in the pursuit of truth, what is and what isn't.",
+  text: "Lost in the pursuit of truth, what is, what isn't, and what could be.",
   by: '',
 };
 
