@@ -1,0 +1,41 @@
+/* Theme tokens. Every colour on the site comes from these variables, so a theme is
+   just a different set of values. The fun-mode (papaya) theme will later add a
+   [data-theme="fun"] block here. */
+/* Ashen palette: no pure black or white - stone-grey page, mid-charcoal greys for text and the sidebar,
+   one ember-amber glow (hover/selection only). Light only, regardless of the visitor's system dark mode. */
+:root {
+  color-scheme: light;
+  --paper: #d9d8d3;        /* ashen light grey page */
+  --ink: #3b3b39;          /* charcoal (not pure black) */
+  --panel: #c2c1bb;        /* sidebar: a shade greyer than the page */
+  --panel-fg: #363634;     /* same dark grey as body text */
+  --ember: #d0782c;        /* the single colour: amber glow */
+  --bg: var(--paper); --fg: #363634; --muted: #5e5e5a; --line: #b3b2ac;
+  --accent: var(--ink); --tag-bg: #c2c1bb; --tag-fg: #363634;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-head: "Space Grotesk", "Inter", sans-serif;
+}
+::selection { background: var(--ember); color: #2e2e2c; }
+img { filter: grayscale(1) contrast(1.05) brightness(.97); }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.65 var(--font-body);
+}
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--ember); text-decoration-color: var(--ember); }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; }
+h3 { font-size: 1.05rem; margin: 0 0 4px; line-height: 1.4; }
+
+/* Two-column layout: sticky sidebar on the left, content on the right. */
+.layout {
+  max-width: 1060px; margin: 0 auto; padding: 64px 20px 80px;
+  display: grid; grid-template-columns: 250px 1fr; column-gap: 64px;
+}
+.content > section:first-child h2 { margin-top: 0; }
+
+@media (max-width: 760px) {
+  .layout { display: block; padding-top: 40px; }
+}

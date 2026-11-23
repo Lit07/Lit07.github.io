@@ -1,0 +1,144 @@
+---
+// The home page: puts the data from src/data/site.ts into the components.
+import Base from '../layouts/Base.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Section from '../components/Section.astro';
+import Entry from '../components/Entry.astro';
+import { profile, about, news, papers, research, experience, projects, education, writeups, beyond, clusters, epigraph, closingQuote } from '../data/site';
+const SHOW_DAILIES = false;
+const nCut = clusters.reduce((s, c) => s + c.items.length, 0);
+const nMore = clusters.reduce((s, c) => s + (c.more || 0), 0);
+
+const bold = (authors: string) => authors.replace(profile.name, `<strong>${profile.name}</strong>`);
+---
+
+<Base
+  title={profile.name}
+  description="Tarun Srivastava: undergraduate researcher in generalizable deepfake detection, generative models and privacy-preserving learning. IIEST Shibpur."
+>
+  <div class="layout">
+    <Sidebar />
+
+    <main class="content">
+      <Section title="Prologue">
+        {epigraph.text && (
+          <blockquote class="epigraph">
+            <p>{epigraph.text}</p>
+            {epigraph.by && <cite>— {epigraph.by}</cite>}
+          </blockquote>
+        )}
+        {about.map((p) => <p set:html={p} />)}
+      </Section>
+
+      {/* Dailies hidden until there is real, dated news - set SHOW_DAILIES = true to bring it back */}
+      {SHOW_DAILIES && <Section title="Dailies">
+        <ul class="news">
+          {news.map((n) => <li><span class="date">{n.date}</span>{n.text}</li>)}
+        </ul>
+      </Section>}
+
+      <Section title="A Drop in the Ocean" label="papers and research">
+        {papers.map((p) => (
+          <Entry title={p.title} meta={`${bold(p.authors)} · <span class="tag">${p.status}</span>${p.year}`}>
+            <p>{p.summary}</p>
+            <p class="plinks">
+              {p.links.map((l) => (l.href ? <a href={l.href}>{l.label}</a> : <span>{l.label}</span>))}
+            </p>
+          </Entry>
+        ))}
+        {research.map((r) => <Entry title={r.title} href={r.href} meta={r.meta}><p>{r.text}</p></Entry>)}
+      </Section>
+
+      <Section title="Dissections" label="reading">
+        <p class="dlead">Papers taken apart, grouped by the question they serve. {nCut} so far, {nMore} more on the cutting table.</p>
+        <p class="dlegend"><span class="mk deep">◆</span> followed through <span class="mk built">▲</span> drawn from</p>
+        {clusters.map((c) => (
+          <div class="cl">
+            <h4>{c.title}<span class="clsub">{c.sub}</span></h4>
+            <p class="cuts">
+              {c.items.map((d) => (
+                <span class="cut">{d.href ? <a href={d.href}>{d.name}</a> : <span>{d.name}</span>}{d.deep && <span class="mk deep">◆</span>}{d.built && <span class="mk built">▲</span>}</span>
+              ))}
+            </p>
+            {c.more && <p class="more">and {c.more} more on the cutting table</p>}
+          </div>
+        ))}
+      </Section>
+
+      <Section title="On Set" label="experience">
+        {experience.map((e) => <Entry title={e.title} href={e.href} meta={e.meta}><p>{e.text}</p></Entry>)}
+      </Section>
+
+      <Section title="Showreel" label="projects">
+        {projects.map((e) => <Entry title={e.title} href={e.href} meta={e.meta}><p>{e.text}</p></Entry>)}
+      </Section>
+
+      <Section title="Technical Scripts" label="ideas and write-ups">
+        {writeups.length ? writeups.map((e) => <Entry title={e.title} href={e.href} meta={e.meta}><p>{e.text}</p></Entry>)
+          : <p class="wip">Work in progress.</p>}
+      </Section>
+
+      <Section title="Beyond the Curriculum" label="poetry and plays">
+        {beyond.length
+          ? <p class="cuts">{beyond.map((e) => <span class="cut"><a href={`/beyond#${e.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{e.title}</a></span>)}<span class="cut"><span class="wip">more in progress</span></span></p>
+          : <p class="wip">Work in progress.</p>}
+      </Section>
+
+      <Section title="Education">
+        {education.map((e) => <Entry title={e.title} meta={e.meta}>{e.text && <p>{e.text}</p>}</Entry>)}
+      </Section>
+
+      {closingQuote && <p class="closing">{closingQuote}</p>}
+
+      <footer>Credits roll · last updated November 2026.</footer>
+    </main>
+  </div>
+</Base>
+
+<style>
+  .news { padding-left: 18px; margin: 0; }
+  .news li { margin-bottom: 6px; }
+  .date { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  .plinks { font-size: .9rem; font-weight: 500; }
+  .plinks a, .plinks span { margin-right: 14px; }
+  .plinks span { color: var(--muted); }
+  /* .tag is injected as HTML inside Entry's meta line, so it needs :global */
+  :global(.tag) {
+    display: inline-block; font-size: .78rem; font-weight: 600; padding: 1px 8px; border-radius: 10px;
+    background: var(--tag-bg); color: var(--tag-fg); margin-right: 6px; vertical-align: 2px;
+  }
+  .epigraph { margin: 4px 0 26px; padding: 2px 0 2px 18px; border-left: 3px solid var(--muted); max-width: 34em; }
+  .epigraph p { margin: 0; font: italic 500 1.12rem/1.55 var(--font-head); color: var(--fg); }
+  .epigraph cite { display: block; margin-top: 8px; font-style: normal; font-size: .85rem; color: var(--muted); letter-spacing: .04em; }
+  .closing { margin: 72px 0 0; padding-top: 22px; border-top: 1px solid var(--line); text-align: center;
+             font: italic 500 1.05rem/1.6 var(--font-head); color: var(--muted); }
+  .dlead { color: var(--muted); margin: 0 0 4px; }
+  .dlegend { color: var(--muted); font-size: .8rem; margin: 0 0 22px; }
+  .dlegend .mk + * , .dlegend .built { margin-left: 10px; }
+  .cl { margin: 0 0 20px; padding-left: 14px; border-left: 2px solid var(--line); }
+  .cl h4 { font: 600 .82rem var(--font-head); text-transform: uppercase; letter-spacing: .12em; color: var(--fg); margin: 0 0 6px; }
+  .clsub { display: block; margin-top: 2px; font: italic 400 .86rem var(--font-body, inherit); text-transform: none;
+           letter-spacing: 0; color: var(--muted); }
+  .cuts { margin: 0; line-height: 1.75; font-size: .93rem; }
+  .cut:not(:last-child)::after { content: '·'; margin: 0 8px; color: var(--muted); }
+  .cut a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .cut a:hover { color: var(--ember); border-color: var(--ember); }
+  .mk { font-size: .62rem; margin-left: 3px; vertical-align: 2px; color: var(--muted); }
+  .mk.built { color: var(--ember); }
+  .more { margin: 4px 0 0; font-size: .82rem; font-style: italic; color: var(--muted); }
+  .dgroup { margin: 0 0 18px; }
+  .dgroup h4 { font: 600 .8rem var(--font-head); text-transform: uppercase; letter-spacing: .1em;
+               color: var(--muted); margin: 0 0 6px; }
+  .dlist { list-style: none; padding: 0; margin: 0; }
+  .dlist li { padding: 5px 0 5px 12px; border-left: 2px solid var(--line); margin-bottom: 2px; line-height: 1.45; }
+  .dlist a { text-decoration: none; color: var(--fg); font-weight: 500; }
+  .dlist a:hover { color: var(--ember); }
+  .dmeta { display: block; color: var(--muted); font-size: .86rem; }
+  .dtag { display: inline-block; font-size: .72rem; font-weight: 600; padding: 0 7px; border-radius: 9px;
+          margin-top: 2px; border: 1px solid var(--muted); color: var(--muted); }
+  .dtag.implemented { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .dtag.built-on { background: var(--tag-bg); border-color: var(--tag-bg); color: var(--tag-fg); }
+  .wip { color: var(--muted); font-style: italic; margin: 0; }
+  .verse { white-space: pre-line; font-style: italic; }
+  footer { margin-top: 64px; color: var(--muted); font-size: .85rem; }
+</style>

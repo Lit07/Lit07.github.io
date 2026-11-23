@@ -1,0 +1,34 @@
+---
+// Separate page for poetry and plays, so the main page only carries a link list.
+import Base from '../layouts/Base.astro';
+import { profile, beyond } from '../data/site';
+const slug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+
+<Base title={`Beyond the Curriculum · ${profile.name}`} description="Poetry and plays by Tarun Srivastava.">
+  <main class="page">
+    <p class="back"><a href="/#beyond-the-curriculum">← back</a></p>
+    <h1>Beyond the Curriculum</h1>
+    <p class="sub">poetry and plays</p>
+    {beyond.map((e) => (
+      <article id={slug(e.title)}>
+        <h2>{e.title}</h2>
+        {e.meta && <p class="meta">{e.meta}</p>}
+        <p class="verse" set:html={e.text} />
+      </article>
+    ))}
+  </main>
+</Base>
+
+<style>
+  body { background: var(--bg); }
+  .page { max-width: 640px; margin: 0 auto; padding: 56px 16px 80px; }
+  .back a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+  .back a:hover { color: var(--ember); }
+  h1 { font-size: 1.6rem; margin: 18px 0 2px; color: var(--ink); }
+  .sub { color: var(--muted); margin: 0 0 40px; font-style: italic; }
+  article { margin: 0 0 56px; }
+  h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em; color: var(--ink); margin: 0 0 4px; }
+  .meta { color: var(--muted); font-size: .88rem; margin: 0 0 18px; }
+  .verse { white-space: pre-line; font-style: italic; line-height: 1.8; margin: 0; }
+</style>

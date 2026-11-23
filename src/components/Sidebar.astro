@@ -1,0 +1,56 @@
+---
+// Photo, name and links. Sticky on desktop, stacks on top on phones.
+import fs from 'node:fs';
+import { profile } from '../data/site';
+
+// Show the photo only if public/photo.jpg exists (checked at build time).
+const hasPhoto = fs.existsSync('public/photo.jpg');
+const initials = profile.name.split(' ').map((w) => w[0]).join('');
+---
+
+<div class="side">
+<aside class="sidebar">
+  {hasPhoto
+    ? <img class="photo" src="/photo.jpg" alt={profile.name} />
+    : <div class="photo placeholder">{initials}</div>}
+  <h1>{profile.name}</h1>
+  <p class="sub">{profile.tagline}{profile.affiliation && <><br />{profile.affiliation}</>}</p>
+  <nav>
+    {profile.links.map((l: any) => l.mail
+      ? <a href="#" class="js-mail" data-u={profile.mail.user.split('').reverse().join('')} data-d={profile.mail.domain}>{l.label}</a>
+      : <a href={l.href}>{l.label}</a>)}
+  </nav>
+</aside>
+{profile.status && <p class="status">{profile.status}</p>}
+</div>
+
+<script>
+  // Rebuild the mailto link in the browser (the username is stored reversed in the HTML).
+  document.querySelectorAll<HTMLAnchorElement>('a.js-mail').forEach((a) => {
+    const u = (a.dataset.u || '').split('').reverse().join('');
+    a.href = 'mailto:' + u + '@' + (a.dataset.d || '');
+  });
+</script>
+
+<style>
+  /* Sidebar panel: one shade greyer than the page, dark-grey text. */
+  .side { position: sticky; top: 64px; align-self: start; }
+  .sidebar { background: var(--panel); color: var(--panel-fg); padding: 26px 24px 28px; border-radius: 6px;
+             box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+  .photo { width: 170px; height: 208px; border-radius: 4px; object-fit: cover; object-position: center 30%;
+           border: 1px solid #b3b2ac; display: block; }
+  .placeholder { display: grid; place-items: center; background: #bab9b3; color: #4a4a46;
+                 font: 600 2.4rem var(--font-head); }
+  h1 { font-size: 1.9rem; line-height: 1.15; margin: 20px 0 6px; letter-spacing: -.01em; color: #2f2f2d; }
+  .sub { color: #5e5e5a; margin: 0 0 16px; }
+  .status { font-size: .8rem; line-height: 1.5; margin: 12px 4px 0; color: var(--muted); }
+  nav { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
+  nav a { color: var(--panel-fg); text-decoration: none; border-bottom: 1px solid #b3b2ac; padding: 2px 0; }
+  nav a:hover { color: var(--ember); background: none; }
+
+  @media (max-width: 760px) {
+    .side { position: static; margin-bottom: 8px; }
+    .photo { width: 120px; height: 120px; }
+    nav { flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
+  }
+</style>

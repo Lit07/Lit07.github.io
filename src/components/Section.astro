@@ -1,0 +1,22 @@
+---
+// A titled section of the page. The id lets you link to it, e.g. /#research.
+// `label` = optional plain-English hint shown next to the cinematic title (e.g. "papers and research").
+interface Props { title: string; label?: string }
+const { title, label } = Astro.props;
+const id = title.toLowerCase().replace(/\s+/g, '-');
+---
+
+<section id={id}>
+  <h2>{title}{label && <span class="label">· {label}</span>}</h2>
+  <slot />
+</section>
+
+<style>
+  h2 {
+    margin: 48px 0 18px; font-size: .9rem; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--ink);
+    padding-bottom: 6px; border-bottom: 1px solid var(--muted);
+  }
+  .label { margin-left: 10px; font-weight: 400; font-size: .85rem; text-transform: none;
+           letter-spacing: .02em; color: var(--muted); }
+</style>

@@ -1,0 +1,17 @@
+---
+// One item in a list: a project, job, paper, etc. The left rule ties it visually together.
+interface Props { title: string; href?: string; meta?: string }
+const { title, href, meta } = Astro.props;
+---
+
+<div class="entry">
+  <h3>{href ? <a href={href}>{title}</a> : title}</h3>
+  {meta && <p class="meta"><Fragment set:html={meta} /></p>}
+  <slot />
+</div>
+
+<style>
+  .entry { margin: 0 0 26px; padding-left: 14px; border-left: 2px solid var(--muted); }
+  .meta { color: var(--muted); font-size: .92rem; margin: 0 0 6px; }
+  .entry :global(p) { margin: 6px 0; }
+</style>
