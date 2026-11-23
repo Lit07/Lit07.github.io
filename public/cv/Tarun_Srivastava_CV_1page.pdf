@@ -71,7 +71,7 @@ endobj
 endobj
 7 0 obj
 <<
-/Length 10969
+/Length 10973
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -213,7 +213,7 @@ q
 q
 BT 1 0 0 1 2 24.8 Tm /F1 10 Tf 12 TL 0 0 0 rg (\177) Tj ET
 0 0 0 rg
-BT 1 0 0 1 11 24.8 Tm /F3 9.7 Tf 11.5 TL .5 0 Td (Paper: \223Periodic Gradient-Variance Suppression on SVD-Adapted Residuals for Cross-Generator Deepfake Detection\224 \(submitted,) Tj T* -0.5 0 Td (ICLR 2027\): periodic mask recalibration on SVD-adapted CLIP ViT-L/14 residuals, matching a Fishr-style invariance baseline) Tj T* (\(AUC 0.919, DF40\)) Tj T* ET
+BT 1 0 0 1 11 24.8 Tm /F3 9.7 Tf 11.5 TL .5 0 Td (Paper: \223Periodic Gradient-Variance Suppression on SVD-Adapted Residuals for Cross-Generator Deepfake Detection\224 \(preprint,) Tj T* -0.5 0 Td (under revision\): periodic mask recalibration on SVD-adapted CLIP ViT-L/14 residuals, matching a Fishr-style invariance baseline) Tj T* (\(AUC 0.919, DF40\)) Tj T* ET
 Q
 Q
 q
@@ -554,13 +554,13 @@ xref
 0000000550 00000 n 
 0000000734 00000 n 
 0000000933 00000 n 
-0000011955 00000 n 
-0000012030 00000 n 
-0000012137 00000 n 
-0000012246 00000 n 
-0000012356 00000 n 
-0000012467 00000 n 
-0000012545 00000 n 
+0000011959 00000 n 
+0000012034 00000 n 
+0000012141 00000 n 
+0000012250 00000 n 
+0000012360 00000 n 
+0000012471 00000 n 
+0000012549 00000 n 
 trailer
 <<
 /Size 15
@@ -569,5 +569,5 @@ trailer
 /ID [ <4f3b75e3f41979aee6b44387c34e54f5> <4f3b75e3f41979aee6b44387c34e54f5> ]
 >>
 startxref
-12870
+12874
 %%EOF
