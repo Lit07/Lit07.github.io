@@ -258,7 +258,7 @@ Wandered in search of completeness, now <u><strong>void</strong></u> is me.`,
   {
     title: 'The Shibpur Incident',
     href: '/writing/The_Shibpur_Incident.pdf',
-    meta: 'Play in four acts, Hinglish · Best Script, Expressions 2024',
+    meta: 'Play in four acts, Hinglish · Best Script, Expressions 2024 · <a href="/writing/The_Shibpur_Incident_English_first_draft.pdf">read the English first draft</a>',
     text: `A boy who lives for his afternoon naps and evening chai loses his best friend to the pandemic, shuts himself away for two years, and finds his way back over a cup of tea at Shibpur, carrying his friend's dream as his own.`,
   },
 ];
